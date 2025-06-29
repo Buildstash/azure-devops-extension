@@ -47,8 +47,7 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
 
       # Optional VC info
       vcHostType: 'git'
-      vcHost: 'GitHub'
-      vcSourceHost: 'github'
+      vcHost: 'github'
       vcRepoName: $(Build.Repository.Name)
       vcRepoUrl: $(Build.Repository.Uri)
       vcBranch: $(Build.SourceBranchName)

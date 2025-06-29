@@ -14,7 +14,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 11
+    "Patch": 12
   },
   "instanceNameFormat": "Buildstash Upload",
   "inputs": [
@@ -145,15 +145,7 @@
     {
       "name": "vcHost",
       "type": "string",
-      "label": "Version Control Host (readable)",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "Readable version control host string (optional, deprecated)"
-    },
-    {
-      "name": "vcSourceHost",
-      "type": "string",
-      "label": "Source Host",
+      "label": "Version Control Host",
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "Version control source host (i.e. github or azure-repos). See docs for allowed list."

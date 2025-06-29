@@ -153,7 +153,7 @@ async function run() {
       ci_run_url: tl.getInput('ciRunUrl'),
       ci_build_duration: tl.getInput('ciBuildDuration'),
       vc_host_type: tl.getInput('vcHostType'),
-      vc_source_host: tl.getInput('vcSourceHost'),
+      vc_host: tl.getInput('vcHost'),
       vc_repo_name: tl.getInput('vcRepoName'),
       vc_repo_url: tl.getInput('vcRepoUrl'),
       vc_branch: tl.getInput('vcBranch'),
