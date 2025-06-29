@@ -1,20 +1,24 @@
 # Buildstash Azure DevOps Extension
 
-This Azure DevOps extension allows you to upload build artifacts to the Buildstash platform for artifact management.
+This Azure DevOps extension allows you to upload build artifacts to Buildstash.
+
+Buildstash is a platform for software teams to manage all their past builds, organize, share with team members, and steer through to deployment or publishing. 
 
 ## Features
 
-- Upload primary build artifacts (binary files)
-- Upload optional expansion files
-- Support for both direct and chunked uploads
-- Comprehensive metadata tracking
-- Integration with Azure DevOps pipeline variables
+- Upload software builds, for any platform
+- Attach associated metadata to builds - such as git commit, Azure Pipelines run data, etc
+- Once stored in Buildstash, builds can be be powerfully organized, shared, and more
 
 ## Installation
 
-1. Package the extension using the Azure DevOps Extension Tools
-2. Upload the extension to your Azure DevOps organization
-3. Install the extension in your organization
+Install the extension to your Azure DevOps organization via the marketplace at https://marketplace.visualstudio.com/items?itemName=Buildstash.buildstash-tasks
+
+Add the Buildstash upload task to your pipeline script, using the example below.
+
+Add the application specific API key as a secret variable for your pipeline, with name BUILDSTASH_API_KEY.
+
+Note: You will need to have an active Buildstash account and API key for your application, sign up at [buildstash.com](https://buildstash.com)
 
 ## Usage
 
@@ -22,27 +26,34 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
 
 ```yaml
 - task: BuildstashUpload@1
-  inputs:
-    primaryFilePath: '$(Build.ArtifactStagingDirectory)/my-app.zip'
-    expansionFilePath: '$(Build.ArtifactStagingDirectory)/my-app-expansion.zip'
-    structure: 'file+expansion'
-    apiKey: '$(BUILDSTASH_API_KEY)'
-    versionComponent1Major: '1'
-    versionComponent2Minor: '0'
-    versionComponent3Patch: '0'
-    ciPipeline: '$(Build.DefinitionName)'
-    ciRunId: '$(Build.BuildId)'
-    ciRunUrl: '$(Build.BuildUri)'
-    vcHostType: 'Azure Repos'
-    vcHost: '$(System.TeamFoundationCollectionUri)'
-    vcRepoName: '$(Build.Repository.Name)'
-    vcRepoUrl: '$(Build.Repository.Uri)'
-    vcBranch: '$(Build.SourceBranch)'
-    vcCommitSha: '$(Build.SourceVersion)'
-    vcCommitUrl: '$(Build.Repository.Uri)/commit/$(Build.SourceVersion)'
-    platform: 'windows'
-    stream: 'production'
-    notes: 'Build from Azure DevOps pipeline'
+    displayName: Upload to Buildstash
+    inputs:
+      apiKey: $(BUILDSTASH_API_KEY)
+      structure: 'file'
+      primaryFilePath: 'example.exe'
+      versionComponent1Major: '1'
+      versionComponent2Minor: '0'
+      versionComponent3Patch: '1'
+      versionComponentExtra: 'beta'
+      versionComponentMeta: '2024.12.02'
+      customBuildNumber: '12345'
+      platform: 'windows'
+      stream: 'default'
+
+      # Optional CI info
+      ciPipeline: $(Build.DefinitionName)
+      ciRunId: $(Build.BuildId)
+      ciRunUrl: "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+
+      # Optional VC info
+      vcHostType: 'git'
+      vcHost: 'GitHub'
+      vcSourceHost: 'github'
+      vcRepoName: $(Build.Repository.Name)
+      vcRepoUrl: $(Build.Repository.Uri)
+      vcBranch: $(Build.SourceBranchName)
+      vcCommitSha: $(Build.SourceVersion)
+      vcCommitUrl: $(Build.Repository.Uri)/commit/$(Build.SourceVersion)
 ```
 
 ## Input Parameters
@@ -50,99 +61,14 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
 ### Required
 - **Primary File Path**: Path to the primary build artifact file to upload
 - **Structure**: Structure type for the upload (`file` or `file+expansion`)
-- **API Key**: Buildstash API key for authentication
+- **API Key**: Buildstash API key for authentication (should be passed in as a secret variable)
 
 ### Optional
-- **Expansion File Path**: Path to the optional expansion file to upload
-- **Version Components**: Major, minor, patch, extra, and meta version components
-- **Custom Build Number**: Custom build number
+- **Expansion File Path**: Path to the optional expansion file to upload (can be used to upload Android .obb files with a primary .apk)
+- **Version Components**: Major, minor, patch version components, with optional extra and meta components
+- **Custom Build Number**: Custom build number, in any preferred format
 - **CI Information**: Pipeline name, run ID, run URL, build duration
 - **Version Control Information**: Host type, host, repository details, branch, commit information
-- **Platform**: Platform information
-- **Stream**: Stream information
-- **Notes**: Additional notes for the upload
-
-## Output Variables
-
-- **buildId**: Build ID returned from Buildstash
-- **pendingProcessing**: Whether the build is pending processing
-- **buildInfoUrl**: URL to view build information
-- **downloadUrl**: URL to download the uploaded artifact
-
-## Example Pipeline
-
-```yaml
-trigger:
-- main
-
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'Build application'
-
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: 'dist'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/app.zip'
-    replaceExistingArchive: true
-  displayName: 'Create artifact archive'
-
-- task: buildstash-task@1
-  inputs:
-    primaryFilePath: '$(Build.ArtifactStagingDirectory)/app.zip'
-    structure: 'file'
-    apiKey: '$(BUILDSTASH_API_KEY)'
-    versionComponent1Major: '1'
-    versionComponent2Minor: '0'
-    versionComponent3Patch: '0'
-    ciPipeline: '$(Build.DefinitionName)'
-    ciRunId: '$(Build.BuildId)'
-    ciRunUrl: '$(Build.BuildUri)'
-    vcHostType: 'Azure Repos'
-    vcHost: '$(System.TeamFoundationCollectionUri)'
-    vcRepoName: '$(Build.Repository.Name)'
-    vcRepoUrl: '$(Build.Repository.Uri)'
-    vcBranch: '$(Build.SourceBranch)'
-    vcCommitSha: '$(Build.SourceVersion)'
-    vcCommitUrl: '$(Build.Repository.Uri)/commit/$(Build.SourceVersion)'
-    platform: 'linux'
-    stream: 'production'
-    notes: 'Automated build from Azure DevOps'
-  displayName: 'Upload to Buildstash'
-```
-
-## Development
-
-To develop this extension locally:
-
-1. Install dependencies:
-   ```bash
-   cd buildstash-task
-   npm install
-   ```
-
-2. Package the extension:
-   ```bash
-   npm install -g tfx-cli
-   tfx extension create --manifest-globs azure-devops-extension.json
-   ```
-
-3. Upload to your organization:
-   ```bash
-   tfx extension publish --manifest-globs azure-devops-extension.json --token <PAT>
-   ```
-
-## License
-
-MIT License 
+- **Platform**: Platform name (must exactly match platform slug attached to your app)
+- **Stream**: Stream name (must exactly match)
+- **Notes**: Optional build notes

@@ -4,7 +4,7 @@
   "name": "BuildstashUpload",
   "friendlyName": "Buildstash Upload",
   "description": "Upload build artifacts to Buildstash platform",
-  "helpMarkDown": "Uploads build artifacts (binary files and optional expansion files) to the Buildstash platform for artifact management.",
+  "helpMarkDown": "Uploads build artifacts to the Buildstash platform for archiving, managing, sharing, and publishing.",
   "category": "Utility",
   "visibility": [
       "Build",
@@ -14,7 +14,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 6
+    "Patch": 8
   },
   "instanceNameFormat": "Buildstash Upload",
   "inputs": [
@@ -52,7 +52,7 @@
       "label": "API Key",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "Buildstash API key for authentication"
+      "helpMarkDown": "Buildstash API key for authentication (sensitive, store as a secret)"
     },
     {
       "name": "versionComponent1Major",
@@ -84,7 +84,7 @@
       "label": "Version Extra",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Extra version component"
+      "helpMarkDown": "Extra version component (optional)"
     },
     {
       "name": "versionComponentMeta",
@@ -92,7 +92,7 @@
       "label": "Version Meta",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Meta version component"
+      "helpMarkDown": "Meta version component (optional)"
     },
     {
       "name": "customBuildNumber",
@@ -140,15 +140,23 @@
       "label": "Version Control Host Type",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Version control host type"
+      "helpMarkDown": "Version control host type (git,svn,hg,etc) see docs for list."
     },
     {
       "name": "vcHost",
       "type": "string",
-      "label": "Version Control Host",
+      "label": "Version Control Host (readable)",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Version control host"
+      "helpMarkDown": "Readable version control host string (optional, deprecated)"
+    },
+    {
+      "name": "vcSourceHost",
+      "type": "string",
+      "label": "Source Host",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Version control source host (i.e. github or azure-repos). See docs for allowed list."
     },
     {
       "name": "vcRepoName",
@@ -156,7 +164,7 @@
       "label": "Repository Name",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Repository name"
+      "helpMarkDown": "Git repository name"
     },
     {
       "name": "vcRepoUrl",
@@ -164,7 +172,7 @@
       "label": "Repository URL",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Repository URL"
+      "helpMarkDown": "Git repository URL"
     },
     {
       "name": "vcBranch",
@@ -172,7 +180,7 @@
       "label": "Branch",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Branch name"
+      "helpMarkDown": "Git branch name"
     },
     {
       "name": "vcCommitSha",
@@ -196,7 +204,7 @@
       "label": "Platform",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Platform information"
+      "helpMarkDown": "Platform id, see docs for allowed list"
     },
     {
       "name": "stream",
@@ -204,7 +212,7 @@
       "label": "Stream",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Stream information"
+      "helpMarkDown": "Stream - the exact name of the stream on your app this build will be sent to"
     },
     {
       "name": "notes",
@@ -212,7 +220,7 @@
       "label": "Notes",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Additional notes for the upload"
+      "helpMarkDown": "Build notes (optional)"
     }
   ],
   "outputVariables": [
@@ -230,7 +238,7 @@
     },
     {
       "name": "downloadUrl",
-      "description": "URL to download the uploaded artifact"
+      "description": "URL to download the uploaded build"
     }
   ],
   "execution": {
