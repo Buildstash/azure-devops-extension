@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "buildstash-tasks",
   "name": "Buildstash",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "publisher": "Buildstash",
   "targets": [
     {
@@ -10,6 +10,7 @@
     }
   ],
   "description": "Upload build artifacts to Buildstash platform",
+  "public": true,
   "categories": [
     "Azure Pipelines"
   ],
@@ -31,6 +32,27 @@
   "icons": {
     "default": "images/icon.png"
   },
+  "links": {
+      "buildstash.com": {
+          "uri": "https://buildstash.com"
+      },
+      "docs": {
+          "uri": "https://support.buildstash.com/docs/integrations/azure-devops-pipelines"
+      },
+      "support": {
+          "uri": "https://support.buildstash.com"
+      },
+      "repository": {
+          "uri": "https://github.com/Buildstash/azure-devops-extension"
+      },
+      "privacypolicy": {
+          "uri": "https://buildstash.com/privacy"
+      }
+  },
+  "repository": {
+      "type": "git",
+      "uri": "https://github.com/Buildstash/azure-devops-extension"
+  },
   "files": [
     {
       "path": "tasks/BuildstashUpload"
@@ -51,6 +73,9 @@
   "content": {
     "details": {
       "path": "README.md"
+    },
+    "license": {
+      "path": "LICENSE"
     }
   }
 } 
