@@ -1,0 +1,56 @@
+{
+  "manifestVersion": 1,
+  "id": "buildstash-tasks",
+  "name": "Buildstash",
+  "version": "1.0.6",
+  "publisher": "Buildstash",
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Upload build artifacts to Buildstash platform",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "Tags": [
+      "Buildstash",
+      "Builds",
+      "Build",
+      "Archive",
+      "Store",
+      "Organize",
+      "Azure",
+      "Release",
+      "DevOps",
+      "azure-devops",
+      "Pipelines",
+      "artifacts",
+      "upload"
+  ],
+  "icons": {
+    "default": "images/icon.png"
+  },
+  "files": [
+    {
+      "path": "tasks/BuildstashUpload"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "buildstash-upload",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "tasks/BuildstashUpload"
+      }
+    }
+  ],
+  "content": {
+    "details": {
+      "path": "README.md"
+    }
+  }
+} 

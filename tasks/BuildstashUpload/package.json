@@ -1,0 +1,23 @@
+{
+  "name": "@buildstash/buildstash-upload",
+  "version": "1.0.6",
+  "description": "Azure DevOps task for uploading build artifacts to Buildstash",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "azure-pipelines-task-lib": "^4.4.0",
+    "axios": "^1.6.0",
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "azure-devops",
+    "buildstash",
+    "artifacts",
+    "upload"
+  ],
+  "author": "Buildstash",
+  "license": "MIT"
+} 
