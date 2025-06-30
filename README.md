@@ -68,3 +68,19 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
 - **Platform**: Platform name (must exactly match platform slug attached to your app)
 - **Stream**: Stream name (must exactly match)
 - **Notes**: Optional build notes
+
+## Adjust Timeout
+
+By default Azure DevOps will timeout jobs after 60 minutes.
+
+This is probably fine, but if you are uploading a particularly massive build, or have a slow connection, you may wish to tweak this.
+
+This is done on the job as below:
+
+```yaml
+jobs:
+- job: Test
+  timeoutInMinutes: 60 # how long to run the job before automatically cancelling in minutes - increase if needed for large uploads
+```
+
+Refer to [Azure docs for more detail](https://learn.microsoft.com/en-us/azure/devops/pipelines/process/phases?view=azure-devops&tabs=yaml#timeouts).
