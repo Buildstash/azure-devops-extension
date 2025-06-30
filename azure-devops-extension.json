@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "buildstash-tasks",
   "name": "Buildstash",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "publisher": "Buildstash",
   "targets": [
     {

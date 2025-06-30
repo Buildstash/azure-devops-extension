@@ -31,7 +31,7 @@ async function uploadChunkedFile({
 
     const partNumber = i + 1;
 
-    tl.debug('Uploading chunked upload, part: ' + partNumber + ' of ' + chunkedNumberParts);
+    console.log('Uploading chunked upload, part: ' + partNumber + ' of ' + chunkedNumberParts);
 
     // Request presigned URL for this part
     const presignedResp = await axios.post(
@@ -199,7 +199,7 @@ async function run() {
 
     // Handle primary file upload
     if (primary_file.chunked_upload) {
-      tl.debug('Uploading primary file using chunked upload...');
+      console.log('Uploading primary file using chunked upload...');
       primaryFileParts = await uploadChunkedFile({
         filePath: primaryFilePath,
         filesize: primaryStats.size,
@@ -210,7 +210,7 @@ async function run() {
         isExpansion: false
       });
     } else {
-      tl.debug('Uploading primary file using direct upload...');
+      console.log('Uploading primary file using direct upload...');
       await axios.put(
         primary_file.presigned_data.url,
         fs.createReadStream(primaryFilePath),
@@ -229,7 +229,7 @@ async function run() {
     // Handle expansion file upload if present
     if (expansionFilePath && expansion_files && expansion_files[0]) {
       if (expansion_files[0].chunked_upload) {
-        tl.debug('Uploading expansion file using chunked upload...');
+        console.log('Uploading expansion file using chunked upload...');
         expansionFileParts = await uploadChunkedFile({
           filePath: expansionFilePath,
           filesize: expansionStats.size,
@@ -240,7 +240,7 @@ async function run() {
           isExpansion: true
         });
       } else {
-        tl.debug('Uploading expansion file using direct upload...');
+        console.log('Uploading expansion file using direct upload...');
         await axios.put(
           expansion_files[0].presigned_data.url,
           fs.createReadStream(expansionFilePath),
@@ -258,7 +258,7 @@ async function run() {
     }
 
     // Verify upload
-    tl.debug('Verifying upload...');
+    console.log('Verifying upload...');
     const verifyPayload = { pending_upload_id };
     
     if (primaryFileParts) {
@@ -293,7 +293,7 @@ async function run() {
     tl.setVariable('buildInfoUrl', buildInfoUrl);
     tl.setVariable('downloadUrl', downloadUrl);
 
-    tl.debug('Upload completed and verified successfully! Uploaded build id ' + buildId);
+    console.log('Upload completed and verified successfully! Uploaded build id ' + buildId);
     
   } catch (error) {
     tl.setResult(tl.TaskResult.Failed, error.message);

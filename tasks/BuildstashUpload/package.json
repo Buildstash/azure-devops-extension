@@ -1,6 +1,6 @@
 {
   "name": "@buildstash/buildstash-upload",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Azure DevOps task for uploading build artifacts to Buildstash",
   "main": "index.js",
   "scripts": {
