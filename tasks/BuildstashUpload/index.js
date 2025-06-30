@@ -119,6 +119,19 @@ async function uploadChunkedFile({
 
 async function run() {
   try {
+    // Get env variables for pipeline
+    const azureBuildPipeline = process.env['BUILD_DEFINITIONNAME'];
+    const azureBuildId = process.env['BUILD_BUILDID'];
+    const collectionUri = process.env['SYSTEM_TEAMFOUNDATIONCOLLECTIONURI'];
+    const teamProject = process.env['SYSTEM_TEAMPROJECT'];
+
+    if (!azureBuildId || !collectionUri || !teamProject) {
+      console.error('One or more required environment variables are missing.')
+      process.exit(1)
+    }
+
+    const ciRunUrl = `${collectionUri}${teamProject}/_build/results?buildId=${azureBuildId}`;
+
     // Get inputs
     const primaryFilePath = tl.getPathInput('primaryFilePath', true);
     const expansionFilePath = tl.getPathInput('expansionFilePath');
@@ -148,9 +161,9 @@ async function run() {
       version_component_meta: tl.getInput('versionComponentMeta'),
       custom_build_number: tl.getInput('customBuildNumber'),
       source: 'azure-devops',
-      ci_pipeline: tl.getInput('ciPipeline'),
-      ci_run_id: tl.getInput('ciRunId'),
-      ci_run_url: tl.getInput('ciRunUrl'),
+      ci_pipeline: azureBuildPipeline,
+      ci_run_id: azureBuildId,
+      ci_run_url: ciRunUrl,
       ci_build_duration: tl.getInput('ciBuildDuration'),
       vc_host_type: tl.getInput('vcHostType'),
       vc_host: tl.getInput('vcHost'),

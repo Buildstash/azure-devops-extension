@@ -41,9 +41,7 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
       stream: 'default'
 
       # Optional CI info
-      ciPipeline: $(Build.DefinitionName)
-      ciRunId: $(Build.BuildId)
-      ciRunUrl: "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+      ciBuildDuration: '15m30s'
 
       # Optional VC info
       vcHostType: 'git'
@@ -66,7 +64,6 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
 - **Expansion File Path**: Path to the optional expansion file to upload (can be used to upload Android .obb files with a primary .apk)
 - **Version Components**: Major, minor, patch version components, with optional extra and meta components
 - **Custom Build Number**: Custom build number, in any preferred format
-- **CI Information**: Pipeline name, run ID, run URL, build duration
 - **Version Control Information**: Host type, host, repository details, branch, commit information
 - **Platform**: Platform name (must exactly match platform slug attached to your app)
 - **Stream**: Stream name (must exactly match)

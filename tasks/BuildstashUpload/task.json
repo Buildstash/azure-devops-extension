@@ -14,7 +14,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 13
+    "Patch": 15
   },
   "instanceNameFormat": "Buildstash Upload",
   "inputs": [
@@ -101,30 +101,6 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "Custom build number"
-    },
-    {
-      "name": "ciPipeline",
-      "type": "string",
-      "label": "CI Pipeline",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "CI pipeline name"
-    },
-    {
-      "name": "ciRunId",
-      "type": "string",
-      "label": "CI Run ID",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "CI run ID"
-    },
-    {
-      "name": "ciRunUrl",
-      "type": "string",
-      "label": "CI Run URL",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "CI run URL"
     },
     {
       "name": "ciBuildDuration",
