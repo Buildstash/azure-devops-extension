@@ -14,7 +14,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 15
+    "Patch": 16
   },
   "instanceNameFormat": "Buildstash Upload",
   "inputs": [
@@ -189,6 +189,22 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "Build notes (optional)"
+    },
+    {
+      "name": "labels",
+      "type": "multiLine",
+      "label": "Labels",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Array of labels to attach to build (will be created if they do not already exist)"
+    },
+    {
+      "name": "architectures",
+      "type": "multiLine",
+      "label": "Architectures",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Array of architectures this build supports (must be supported by platform)"
     }
   ],
   "outputVariables": [

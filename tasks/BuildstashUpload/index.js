@@ -147,6 +147,20 @@ async function run() {
     const primaryStats = fs.statSync(primaryFilePath);
     const primaryFilename = path.basename(primaryFilePath);
 
+    // Get labels (if passed in) and parse into an array
+    const labelsInput = tl.getInput('labels') || '';
+    const labels = labelsInput
+      .split(/\r?\n/)                     // split by newline
+      .map(label => label.trim())         // remove extra spaces
+      .filter(label => label.length > 0); // remove blanks
+
+    // Get architectures (if passed in) and parse into an array
+    const architecturesInput = tl.getInput('architectures') || '';
+    const architectures = architecturesInput
+      .split(/\r?\n/)
+      .map(architecture => architecture.trim())
+      .filter(architecture => architecture.length > 0);
+
     // Prepare request payload
     const payload = {
       structure: structure,
@@ -160,6 +174,8 @@ async function run() {
       version_component_extra: tl.getInput('versionComponentExtra'),
       version_component_meta: tl.getInput('versionComponentMeta'),
       custom_build_number: tl.getInput('customBuildNumber'),
+      labels: labels,
+      architectures: architectures,
       source: 'azure-devops',
       ci_pipeline: azureBuildPipeline,
       ci_run_id: azureBuildId,

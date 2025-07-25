@@ -40,6 +40,14 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
       platform: 'windows'
       stream: 'default'
 
+      # Optional build associations
+      labels: |
+        to-review
+        signed
+      architectures: |
+        x64
+        x86
+
       # Optional CI info
       ciBuildDuration: '15m30s'
 
