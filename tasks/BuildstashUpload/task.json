@@ -13,8 +13,8 @@
   "author": "Buildstash",
   "version": {
     "Major": 1,
-    "Minor": 0,
-    "Patch": 16
+    "Minor": 1,
+    "Patch": 0
   },
   "instanceNameFormat": "Buildstash Upload",
   "inputs": [
@@ -205,6 +205,22 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "Array of architectures this build supports (must be supported by platform)"
+    },
+    {
+      "name": "customTarget",
+      "type": "string",
+      "label": "Custom Target",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Custom target for this build. Must exactly match the name of the target you've defined, and be accessible to this app."
+    },
+    {
+      "name": "metadataArtifacts",
+      "type": "multiLine",
+      "label": "Metadata Artifacts",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "Related metadata files (SBOMs, build logs, etc). JSON array of objects with 'path' and optional 'description' fields. Max 10 files, 5MB each."
     }
   ],
   "outputVariables": [

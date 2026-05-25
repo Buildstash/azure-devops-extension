@@ -40,6 +40,9 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
       platform: 'windows'
       stream: 'default'
 
+      # Optional custom target
+      customTarget: 'Galaxy Store'
+
       # Optional build associations
       labels: |
         to-review
@@ -59,6 +62,13 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
       vcBranch: $(Build.SourceBranchName)
       vcCommitSha: $(Build.SourceVersion)
       vcCommitUrl: $(Build.Repository.Uri)/commit/$(Build.SourceVersion)
+
+      # Optional metadata artifacts (SBOMs, build logs, etc)
+      metadataArtifacts: |
+        [
+          {"path": "$(Build.ArtifactStagingDirectory)/sbom.json", "description": "SBOM"},
+          {"path": "$(Build.ArtifactStagingDirectory)/build.log", "description": "Build log"}
+        ]
 ```
 
 ## Input Parameters
@@ -75,6 +85,8 @@ Add the "Upload to Buildstash" task to your Azure DevOps pipeline:
 - **Version Control Information**: Host type, host, repository details, branch, commit information
 - **Platform**: Platform name (must exactly match platform slug attached to your app)
 - **Stream**: Stream name (must exactly match)
+- **Custom Target**: Custom target for this build. Must exactly match the name of a target you've defined, and be accessible to this app
+- **Metadata Artifacts**: Related metadata files (SBOMs, build logs, etc). JSON array of objects with `path` and optional `description` fields. Max 10 files, 5MB each
 - **Notes**: Optional build notes
 
 ## Adjust Timeout
